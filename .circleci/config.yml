@@ -1,0 +1,25 @@
+version: 2
+defaults: &defaults
+  docker:
+    - image: 'cimg/node:18.12.1'
+jobs:
+  release:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: install
+          command: yarn install
+      - run:
+          name: release
+          command: yarn semantic-release || true
+workflows:
+  version: 2
+  master:
+    jobs:
+      - release:
+          context: devops-dev
+          filters:
+            branches:
+              only:
+                - master

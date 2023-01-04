@@ -17,18 +17,21 @@
     let output;
     switch (value.constructor.name) {
       case 'SassList':
+      case 'sass.types.List':
         output = [];
         for (let i = 0; i < value.getLength(); i++) {
           output.push(get_value(value.getValue(i), options));
         }
         break;
       case 'SassMap':
+      case 'sass.types.Map':
         output = {};
         for (let i = 0; i < value.getLength(); i++) {
           output[value.getKey(i).getValue()] = get_value(value.getValue(i), options);
         }
         break;
       case 'SassColor':
+      case 'sass.types.Color':
         if (1 === value.getA()) {
           if (options.hex_color) {
             output = '#' + toHex(value.getR()) + toHex(value.getG()) + toHex(value.getB());
@@ -42,6 +45,7 @@
         }
         break;
       case 'SassNumber':
+      case 'sass.types.Number':
         output = value.getValue();
         if (value.getUnit()) {
           output += value.getUnit();
